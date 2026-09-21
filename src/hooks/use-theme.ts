@@ -1,14 +1,44 @@
-/**
- * Learn more about light and dark modes:
- * https://docs.expo.dev/guides/color-schemes/
- */
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "./use-color-scheme";
+import { useSettingsStore } from "@/features/settings/store";
 
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+export type ThemeColors = {
+  primary: string;
+  primaryLight: string;
+  accent: string;
+  accentTeal: string;
+  accentCoral: string;
+  accentPurple: string;
+  success: string;
+  warning: string;
+  danger: string;
+  background: string;
+  surface: string;
+  surface2: string;
+  surface3: string;
+  text: string;
+  text2: string;
+  text3: string;
+  border: string;
+  borderLight: string;
+  white: string;
+  black: string;
+  overlay: string;
+};
 
-export function useTheme() {
+export function useThemeColors(): ThemeColors {
   const scheme = useColorScheme();
-  const theme = scheme === 'unspecified' ? 'light' : scheme;
+  const wallpaper = useSettingsStore((s) => s.wallpaper);
+  const base = Colors[scheme] ?? Colors.light;
+  const hasWallpaper = Boolean(wallpaper && wallpaper !== "none");
 
-  return Colors[theme];
+  return {
+    ...base,
+    background: hasWallpaper ? "transparent" : base.background,
+  };
+}
+
+export function useIsDark(): boolean {
+  const scheme = useColorScheme();
+  return scheme === "dark";
 }
