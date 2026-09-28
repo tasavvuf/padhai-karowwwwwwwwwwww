@@ -82,7 +82,10 @@ class FocusEngineModule : Module() {
 
     OnDestroy {
       val context = appContext.reactContext
-      receiver?.let { context?.unregisterReceiver(it) }
+      try {
+        receiver?.let { context?.unregisterReceiver(it) }
+      } catch (e: Exception) {
+      }
       receiver = null
       monitoringSessionId = null
     }

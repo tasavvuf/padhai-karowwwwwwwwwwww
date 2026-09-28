@@ -64,7 +64,7 @@ class FocusMonitoringService : Service() {
     lastPackage = foregroundPackage
     val appName = try {
       packageManager.getApplicationLabel(packageManager.getApplicationInfo(foregroundPackage, 0)).toString()
-    } catch (_: PackageManager.NameNotFoundException) {
+    } catch (e: PackageManager.NameNotFoundException) {
       foregroundPackage
     }
     sendBroadcast(Intent(ACTION_FOREGROUND_APP).apply {
